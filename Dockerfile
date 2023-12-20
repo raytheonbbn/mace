@@ -13,12 +13,12 @@ RUN : \
         software-properties-common \
     && add-apt-repository -y ppa:deadsnakes \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-        python3.11-venv \
+        python3-venv \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     && :
 
-RUN python3.11 -m venv /venv
+RUN python3 -m venv /venv
 ENV PATH=/venv/bin:$PATH
 
 # Get Python 3
