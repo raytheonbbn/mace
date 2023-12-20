@@ -4,5 +4,4 @@
 
 #  © 2023 Raytheon BBN Technologies Corp. All rights reserved. Sponsored by the Air Force Research Laboratory (AFRL)  
 
-#!/bin/bash
 . ros_sim/src/rover_ros/rover_launcher/bin/stop.sh

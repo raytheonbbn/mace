@@ -4,7 +4,6 @@
 
 #  © 2023 Raytheon BBN Technologies Corp. All rights reserved. Sponsored by the Air Force Research Laboratory (AFRL)  
 
-#!/bin/bash
 
 # This script will start init_payload/init_target (depending on arg) for an arbitrary username on pi
 

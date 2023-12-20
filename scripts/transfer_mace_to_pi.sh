@@ -4,7 +4,6 @@
 
 #  © 2023 Raytheon BBN Technologies Corp. All rights reserved. Sponsored by the Air Force Research Laboratory (AFRL)  
 
-#!/bin/bash
 
 # Get the IP address of the pi
 read -p "[INPUT] Please enter the IP address of the Raspberry Pi that you wish to update: " rpi_addr 

@@ -4,5 +4,4 @@
 
 #  © 2023 Raytheon BBN Technologies Corp. All rights reserved. Sponsored by the Air Force Research Laboratory (AFRL)  
 
-#!/bin/bash
 mosquitto -v -c /etc/mosquitto/mosquitto.conf

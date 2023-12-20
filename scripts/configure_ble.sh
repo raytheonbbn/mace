@@ -4,7 +4,6 @@
 
 #  © 2023 Raytheon BBN Technologies Corp. All rights reserved. Sponsored by the Air Force Research Laboratory (AFRL)  
 
-#!/bin/bash
 
 echo "[INFO] Configuring pi to use consistent port for ble dongle"
 

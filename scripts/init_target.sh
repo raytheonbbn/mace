@@ -4,7 +4,6 @@
 
 #  © 2023 Raytheon BBN Technologies Corp. All rights reserved. Sponsored by the Air Force Research Laboratory (AFRL)  
 
-#!/bin/bash
 
 cd ~/mace/scripts
 ./start_target.sh -gv 192.168.1.100 1883

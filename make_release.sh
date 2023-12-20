@@ -4,7 +4,6 @@
 
 #  © 2023 Raytheon BBN Technologies Corp. All rights reserved. Sponsored by the Air Force Research Laboratory (AFRL)  
 
-#!/bin/bash
 RELEASE_DIR="release-candidate"
 # RELEASE_TAR="${RELEASE_DIR}.tgz"
 RELEASE_TAR="mace.zip"

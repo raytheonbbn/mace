@@ -4,6 +4,5 @@
 
 #  © 2023 Raytheon BBN Technologies Corp. All rights reserved. Sponsored by the Air Force Research Laboratory (AFRL)  
 
-#!/bin/bash
 ./fetch_sim_analytics_logs.sh
 ./parse_logs.sh

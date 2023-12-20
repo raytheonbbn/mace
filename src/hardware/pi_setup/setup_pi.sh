@@ -4,7 +4,6 @@
 
 #  © 2023 Raytheon BBN Technologies Corp. All rights reserved. Sponsored by the Air Force Research Laboratory (AFRL)  
 
-#!/bin/bash
 
 # This script should be run on a raspberry pi for first-time setup after running transfer_mace_to_pi.sh
 

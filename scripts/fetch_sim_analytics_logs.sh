@@ -4,7 +4,6 @@
 
 #  © 2023 Raytheon BBN Technologies Corp. All rights reserved. Sponsored by the Air Force Research Laboratory (AFRL)  
 
-#!/bin/bash
 mkdir -p ./docker/logs
 docker cp mace:/home/mace/scripts/docker/logs ./docker
 docker cp mace:/home/mace/logs ./docker

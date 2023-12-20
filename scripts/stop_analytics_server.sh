@@ -4,7 +4,6 @@
 
 #  © 2023 Raytheon BBN Technologies Corp. All rights reserved. Sponsored by the Air Force Research Laboratory (AFRL)  
 
-#!/bin/bash
 PID_FILE="../src/analytics_server/analytics_server_pid.txt"
 
 PID=$(cat ${PID_FILE})

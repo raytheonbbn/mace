@@ -4,7 +4,6 @@
 
 #  © 2023 Raytheon BBN Technologies Corp. All rights reserved. Sponsored by the Air Force Research Laboratory (AFRL)  
 
-#!/bin/bash
 
 MAVROS_ARG=$(ls /dev/serial/* | grep ^usb.*[Cube][fmuv].*f00$)
 

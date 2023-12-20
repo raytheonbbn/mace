@@ -4,7 +4,6 @@
 
 #  © 2023 Raytheon BBN Technologies Corp. All rights reserved. Sponsored by the Air Force Research Laboratory (AFRL)  
 
-#!/bin/bash
 #TODO: parse numRovers from localDevice.properties to determine ports to forward.
 source ../code/stomp/localDevice.properties
 

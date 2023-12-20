@@ -4,7 +4,6 @@
 
 #  © 2023 Raytheon BBN Technologies Corp. All rights reserved. Sponsored by the Air Force Research Laboratory (AFRL)  
 
-#!/bin/bash
 MANAGER_HOST="127.0.0.1"
 TARGET_HOST="127.0.0.1"
 PID_FILE="./target_process_pids.txt"

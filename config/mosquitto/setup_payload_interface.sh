@@ -4,7 +4,6 @@
 
 #  © 2023 Raytheon BBN Technologies Corp. All rights reserved. Sponsored by the Air Force Research Laboratory (AFRL)  
 
-#!/bin/bash
 
 # here we add a alias for the ethernet interface that agents can connect to for MQTT
 # use the link local address space because not DHCP server

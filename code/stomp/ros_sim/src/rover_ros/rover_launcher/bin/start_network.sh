@@ -4,7 +4,6 @@
 
 #  © 2023 Raytheon BBN Technologies Corp. All rights reserved. Sponsored by the Air Force Research Laboratory (AFRL)  
 
-#! /bin/bash
 
 CCAST_CONFIG_FILE="/etc/CCAST_CONFIG"
 CCAST_AVAHI_SERVICE_CONFIG="/etc/avahi/services/ccast.service"

@@ -4,7 +4,6 @@
 
 #  © 2023 Raytheon BBN Technologies Corp. All rights reserved. Sponsored by the Air Force Research Laboratory (AFRL)  
 
-#! /bin/bash
 
 if [[ -z "${ROS_ROVER_HOME_DIR}" ]]; then
   ROVER_HOME="${HOME}"
