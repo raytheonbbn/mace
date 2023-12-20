@@ -1,0 +1,15 @@
+# Contents of /etc/systemd/system/mace-target.service
+# systemd service to start target process
+
+[Unit]
+Description=MACE Target
+After=network.target
+
+[Service]
+Type=simple
+User=pi
+Restart=on-failure
+ExecStart=/opt/mace/run_init_device.sh target
+
+[Install]
+WantedBy=multi-user.target

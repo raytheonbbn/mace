@@ -1,0 +1,18 @@
+// Ubiquiti Email
+Email Address    : mace.bbn@gmail.com
+Email PW         : mace2021
+
+// Ubiquiti Account
+Username         : macebbn
+Email            : mace.bbn@gmail.com
+PW               : macebbn2021#!
+
+// Wifi
+Name             : mace
+Name IoT (2GHz)  : mace_IoT
+PW               : mace2021
+
+// Controller
+Controller Name  : MACE UniFi Network
+Remote Access    : Enabled
+Ubiquiti Account : macebbn

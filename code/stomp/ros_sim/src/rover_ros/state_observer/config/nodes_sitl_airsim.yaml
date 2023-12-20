@@ -1,0 +1,181 @@
+#  Approved for public release: distribution is unlimited. PA Case Number AFRL-2023-4617.
+
+#  © 2023 Raytheon BBN Technologies Corp. All rights reserved. Sponsored by the Air Force Research Laboratory (AFRL)  
+
+
+
+
+'roscore':
+  'topic': '/rosout'
+  'script': 'start_roscore.sh'
+  'method': 'shell'
+  'topic_type': None
+  'timeout': 10.0
+  
+'state_obs':
+  'topic': '/system_diagnostics'
+  'script': 'start_state_observer_airsim.sh'
+  'method': 'node'
+  'topic_type': Diagnostics
+  'timeout': 10.0
+  
+'rosbridge':
+  'name': 'rosbridge'
+  'topic': 9090
+  'script': 'start_rosbridge.sh'
+  'method': 'websocket'
+  'topic_type': None
+  'timeout' : 10.0
+
+'april_tags':
+  'topic': '/tag_detections'
+  'script': 'start_tag_detection_airsim.sh'
+  'method': 'node'
+  'topic_type': AprilTagDetectionArray
+  'timeout': 10.0
+
+'sensor_transforms':
+  'topic': '/TF_MAP'
+  'script': 'start_airsim_tf.sh'
+  'method': 'node'
+  'topic_type': OccupancyGrid
+  'timeout': 10.0
+
+'gps_driver_airsim':
+  'topic': '/gps_fix'
+  'script': 'start_gps_driver_airsim.sh'
+  'method': 'node'
+  'topic_type': GPSFix
+  'timeout': 0.5
+  
+'utils':
+  'topic': '/map_pose'
+  'script': 'start_utilities.sh'
+  'method': 'node'
+  'topic_type': PoseWithCovarianceStamped
+  'timeout': 2.0
+
+'avoidance':
+  'topic': '/obstacles'
+  'script': 'start_avoidance.sh'
+  'method': 'node'
+  'topic_type': PointCloud2
+  'timeout': 10.0
+
+# GLOBAL MODE
+'control_global':
+  'topic': '/controller_check'
+  'script': 'start_control_global.sh'
+  'method': 'node'
+  'topic_type': Float64
+  'timeout': 2.0
+
+'navigation_global':
+  'topic': '/MOVE/local_costmap/costmap'
+  'script': 'start_nav_global.sh'
+  'method': 'node'
+  'topic_type': OccupancyGrid
+  'timeout': 10.0
+
+'ekf':
+  'topic': '/odom'
+  'script': 'start_ekf.sh'
+  'method': 'topic'
+  'topic_type': Odometry
+  'timeout': 10.0
+
+# TRANSITION  
+'control_transition':
+  'topic': '/controller_check'
+  'script': 'start_control_global.sh'
+  'method': 'node'
+  'topic_type': Float64
+  'timeout': 5.0
+
+'navigation_transition':
+  'topic': '/MOVE/local_costmap/costmap'
+  'script': 'start_nav_transition.sh'
+  'method': 'node'
+  'topic_type': OccupancyGrid
+  'timeout': 10.0
+  
+'door_entry':
+  'topic': '/start_state_machine'
+  'script': 'start_door_entry.sh'
+  'method': 'service'
+  'topic_type': Float64
+  'timeout': 5.0
+
+# SLAM  
+'map':
+  'topic': '/map'
+  'script': 'start_map.sh'
+  'method': 'node'
+  'topic_type': OccupancyGrid
+  'timeout': 2.0
+  
+'explore':
+  'topic': '/cmd_explore'
+  'script': 'start_exploration_server.sh'
+  'method': 'service'
+  'topic_type': None
+  'timeout' : 5.0
+
+'navigation':
+  'topic': '/MOVE/local_costmap/costmap'
+  'script': 'start_nav.sh'
+  'method': 'node'
+  'topic_type': OccupancyGrid
+  'timeout': 10.0
+  
+'ekf_indoors': 
+  'topic': '/odom'
+  'script': 'start_ekf_indoors.sh'
+  'method': 'topic'
+  'topic_type': Odometry
+  'timeout': 5.0
+
+# AMCL
+  
+'amcl':
+  'topic': '/map_pose'
+  'script': 'start_amcl.sh'
+  'method': 'node'
+  'topic_type': PoseWithCovarianceStamped
+  'timeout': 2.0
+
+# for testing only
+# 'gazebo': 
+#   'topic': '/odom_wheel'
+#   'script': 'start_gazebo_sitl.sh'
+#   'method': 'topic'
+#   'topic_type': Odometry
+#   'timeout': 20.0
+
+# 'map_tf':
+#   'topic': '/TF_MAP'
+#   'script': 'start_map_tf.sh'
+#   'method': 'node'
+#   'topic_type': OccupancyGrid
+#   'timeout': 10.0
+  
+# 'hector_map':
+#   'topic': '/map'
+#   'script': 'start_hector_map.sh'
+#   'method': 'node'
+#   'topic_type': OccupancyGrid
+#   'timeout': 0.5
+
+# 'tracking':
+#   'topic': '/odom_vision'
+#   'script': 'start_tracking.sh'
+#   'method': 'topic'
+#   'topic_type': Odometry
+#   'timeout': 0.5
+
+# 'gps_conv':
+#   'topic': '/gps_navsat'
+#   'script': 'start_gps_converter.sh'
+#   'method': 'node'
+#   'topic_type': NavSatFix
+#   'timeout': 0.5

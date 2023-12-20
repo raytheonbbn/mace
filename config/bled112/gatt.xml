@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<configuration>
+    <service uuid="1800">
+        <description>Generic Access Profile</description>
+        <characteristic uuid="2a00">
+            <properties read="true" const="true"/>
+            <value type="utf-8">MACE Target Profile</value>
+        </characteristic>
+        <characteristic uuid="2a01">
+            <properties read="true" const="true"/>
+            <value type="hex">4142</value>
+        </characteristic>
+    </service>
+    <service uuid="94cbf29c-4b37-4abc-bf30-ce88d8361b62" advertise="true">
+        <description>Target State Information</description>
+        <characteristic uuid="2a44a101-367a-4510-a922-04ad77750408" id="xgatt_capture_state">
+            <description>Capture State</description>
+            <properties read="true" write="true" notify="true"/>
+            <value variable_length="true" length="10" type="utf-8"/>
+        </characteristic>
+        <characteristic uuid="6e84c068-d8d9-4714-b2d1-b8cb7903ea6c" id="xgatt_config_type">
+            <description>Configuration Type</description>
+            <properties read="true" write="true" notify="true"/>
+            <value variable_length="true" length="10" type="utf-8"/>
+        </characteristic>
+    </service>
+</configuration>

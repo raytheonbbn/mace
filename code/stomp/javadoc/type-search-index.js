@@ -1,0 +1,7 @@
+//  Approved for public release: distribution is unlimited. PA Case Number AFRL-2023-4617.
+
+//  © 2023 Raytheon BBN Technologies Corp. All rights reserved. Sponsored by the Air Force Research Laboratory (AFRL)  
+
+
+
+typeSearchIndex = [{"p":"com.bbn.ccast","l":"AgentEarth"},{"p":"com.bbn.ccast","l":"AgentTelemPackage"},{"l":"All Classes","url":"allclasses-index.html"},{"p":"com.bbn.ccast.util","l":"ConversionUtils"},{"p":"com.bbn.ccast","l":"DeviceType"},{"p":"com.bbn.ccast.util","l":"DistanceUtils"},{"p":"com.bbn.ccast.ros","l":"GoalStatus"},{"p":"com.bbn.ccast.util","l":"MathHelper.HorizontalVertical"},{"p":"com.bbn.ccast.util","l":"MathHelper.LatLon"},{"p":"com.bbn.ccast.util","l":"LatLonAlt"},{"p":"com.bbn.ccast","l":"LinkedNetwork"},{"p":"com.bbn.ccast.util","l":"MathHelper"},{"p":"com.bbn.ccast.sim","l":"OutOfPlatformPositions"},{"p":"com.bbn.ccast.sim","l":"PlatformStartPositions"},{"p":"com.bbn.ccast.ros","l":"RosServiceInterface"},{"p":"com.bbn.ccast.ros","l":"RosTopicPublisher"},{"p":"com.bbn.ccast.ros","l":"RosTopicSubscription"},{"p":"com.bbn.ccast.sim","l":"SimUtils"},{"p":"com.bbn.ccast","l":"TargetTelemPackage"},{"p":"com.bbn.ccast.sim","l":"TimeServer"},{"p":"com.bbn.ccast","l":"Utils"}]

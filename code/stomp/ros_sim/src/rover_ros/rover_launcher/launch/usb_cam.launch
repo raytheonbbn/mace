@@ -1,0 +1,15 @@
+<launch>
+  <node name="usb_cam" pkg="usb_cam" type="usb_cam_node" output="screen" >
+    <param name="video_device" value="/dev/cam" />
+    <param name="image_width" value="640" />
+    <param name="image_height" value="480" />
+    <param name="framerate" value="0.5" />
+    <param name="pixel_format" value="yuyv" />
+    <param name="camera_frame_id" value="camera_back_link" />
+    <param name="io_method" value="mmap"/>
+    <param name="camera_info_url" value="file://$(find rover_launcher)/params/usb_back_camera.yaml"/>
+    <remap from="/usb_cam/camera_info" to="/camera/back/camera_info"/>
+    <remap from="/usb_cam/image_raw" to="/camera/back/image_raw"/>
+    <remap from="/usb_cam/image_rect_signal_1" to="/image_rect_signal_1"/>
+  </node>
+</launch>

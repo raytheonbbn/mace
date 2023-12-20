@@ -1,0 +1,24 @@
+#  Approved for public release: distribution is unlimited. PA Case Number AFRL-2023-4617.
+
+#  © 2023 Raytheon BBN Technologies Corp. All rights reserved. Sponsored by the Air Force Research Laboratory (AFRL)  
+
+
+
+scan_filter_chain:
+- name: box
+  type: laser_filters/LaserScanBoxFilter
+  params:
+    box_frame: lidar_link
+    min_x: -0.3
+    max_x: 0.3
+    min_y: -0.28
+    max_y: 0.28
+    min_z: -0.5
+    max_z: 0.5
+- name: speckle_filter
+  type: laser_filters/LaserScanSpeckleFilter
+  params:
+    filter_type: 0
+    max_range: 2.0
+    max_range_difference: 0.1
+    filter_window: 2

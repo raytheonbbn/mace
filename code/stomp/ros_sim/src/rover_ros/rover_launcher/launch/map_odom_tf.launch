@@ -1,0 +1,5 @@
+<launch>
+
+  <node pkg="tf" type="static_transform_publisher" name="TF_MAP" args="0.0 0.0 0.0 0.0 0.0 0.0 map odom 10" />
+
+</launch>

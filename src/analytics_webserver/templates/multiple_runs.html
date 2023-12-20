@@ -1,0 +1,487 @@
+<!--   Approved for public release: distribution is unlimited. PA Case Number AFRL-2023-4617.
+
+-->
+
+<!--   © 2023 Raytheon BBN Technologies Corp. All rights reserved. Sponsored by the Air Force Research Laboratory (AFRL)  
+
+
+-->
+
+<!--   Copyright 2021-2023 Raytheon BBN Technologies.
+
+
+-->
+
+<!DOCTYPE html>
+<html>
+
+{% include '_head.html' %}
+
+<body class="main">
+
+  {% include '_navbar.html' %}
+
+  <!-- Header -->
+  <section class="hero">
+    <div class="hero-body has-text-centered">
+      <p class="title">
+        <!-- MANAGING ACADEMIES' CHALLENGE EVALUATION -->
+      </p>
+      <p class="subtitle">
+        <!-- Multiple Run - Analytics -->
+      </p>
+    </div>
+  </section>
+
+  <!-- Container holding all the statistics -->
+  <div class="container">
+    <div class="tile is-ancestor">
+      <div class="tile is-vertical is-8">
+        <div class="tile">
+
+          <div class="tile is-parent">
+            <article class="tile is-child notification">
+              <p class="title">Log Files to Include</p>
+              <div class="content">
+                <!-- <form method="POST" action="/multiple_runs"> -->
+                <form method="POST" action="/multiple_runs">
+
+                  {% for log, checked_status in log_files %}
+                    <div><label class="checkbox"><input type="checkbox" value="{{log}}" name="logfile_checkbox" {{'checked="checked"' if checked_status else ""}}> {{log}}</label></div>
+                  {% endfor %}
+
+                  <div class="column has-text-centered ">
+                    <button name="selectall" id="selectallbutton" class="button submit">Select all</button>
+                    <button name="update" id="updatebutton" class="button submit">Update</button> 
+                  </div>
+
+                </form>
+              </div>
+            </article>
+          </div>
+
+        <div class="tile is-parent is-vertical">
+
+          <article class="tile is-child notification">
+            <p class="title">Average Time</p>
+            <div class="content">
+              <ul>
+                <li>Mission Time: {{average_mission_time}}</li>
+                <li>Discover All: {{mission_statistics.avg_time_to_discover_all}}</li>
+                <li>Capture All: {{mission_statistics.avg_time_to_capture_all}}</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="tile is-child notification">
+            <div class="content">
+              <p class="title">Averaged Mission Statistics</p>
+              <div class="content">
+                <ul>
+                  <li>Movement time: {{movement_statistics.total_movement_times}}</li>
+                  <li>Dwelling time: {{movement_statistics.total_dwelling_times}}</li>
+                  <li>Distance Traveled: {{movement_statistics.total_distance_traveled}}m</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="tile is-parent">
+      <article class="tile is-child notification">
+        <p class="title">Mission Success Rate</p>
+        <canvas id="pie_mission_success"></canvas>
+      </article>
+    </div>
+
+  </div>
+
+
+    <div class="container">
+      <div class="tile is-ancestor">
+        <div class="tile is-vertical is-12">
+          <div class="tile is-parent">
+            <article class="tile is-child notification">
+              <p class="title">Time Analysis</p>
+              <canvas id="time_statistics_chart" height="100"></canvas>
+            </article>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="tile is-ancestor">
+        <div class="tile is-6">
+          <div class="tile is-parent">
+            <article class="tile is-child notification">
+              <p class="title">Tag Analysis</p>
+              <canvas id="tag_chart"></canvas>
+            </article>
+          </div>
+        </div>
+
+        <div class="tile is-parent is-vertical is-6">
+
+          <article class="tile is-child notification">
+            <p class="title">Target Analysis</p>
+            <canvas id="target_statistics_chart" height="115"></canvas>
+          </article>
+
+          <article class="tile is-child notification">
+            <div class="content">
+              <p class="title">Average Discovery and Capture Times</p>
+              <canvas id="discovery_and_capture_chart" height="115"></canvas>
+            </div>
+          </article>
+
+        </div>
+
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="tile is-ancestor">
+        <div class="tile is-vertical is-12">
+          <div class="tile is-parent">
+            <article class="tile is-child notification">
+              <p class="title">Total Distance Traveled</p>
+              <canvas id="movement_anaylsis" height="100"></canvas>
+            </article>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  {% include '_footer.html' %}
+    
+  <!-- Include the mission success pie chart -->
+  <script>
+
+    Chart.defaults.color = "#000000";
+
+    // define the chart data
+    var chartData = {
+      labels : {{ mission_success_statistics.labels|tojson }},
+      datasets : [{
+          backgroundColor: ['rgb(255, 56, 96)',
+                            'rgb(72, 199, 116)'],
+          borderColor: ['rgb(255, 56, 96)',
+                        'rgb(72, 199, 116)'],
+          borderJoinStyle: 'miter',
+          data : {{ mission_success_statistics.data|tojson }},
+        }],
+    }
+
+    // get chart canvas
+    var ctx = document.getElementById("pie_mission_success").getContext("2d");
+
+    // create the chart using the chart canvas
+    var pie_chart = new Chart(ctx, {
+      type: 'doughnut',
+      data: chartData,
+      options: {
+        animation: {
+            animateScale: true,
+            animateRotate: true
+        },
+      }
+    });
+
+  </script>
+
+  <!-- Include the mission completion time line chart -->
+  <script>
+
+    Chart.defaults.color = "#000000";
+
+    // define the chart data
+    var chartData = {
+      labels : {{ complete_mission_times.labels|tojson }},
+      datasets : [
+        {
+          label: 'Mission Time',
+          fill: false,
+          lineTension: 0.1,
+          borderColor: "rgb(32, 156, 238)",
+          backgroundColor: "rgba(32, 156, 238, 0.5)",
+          data : {{ complete_mission_times.mission_completion_times|tojson }},
+          spanGaps: false
+        },
+        {
+          label: 'Time to Discover All Targets',
+          fill: false,
+          lineTension: 0.1,
+          borderColor: "rgb(255, 221, 87)",
+          backgroundColor: "rgba(255, 221, 87, 0.5)",
+          data : {{ complete_mission_times.time_to_discover_all|tojson }},
+          spanGaps: false
+        },
+        {
+          label: 'Time to Capture All Targets',
+          fill: false,
+          lineTension: 0.1,
+          borderColor: "rgb(72, 199, 116)",
+          backgroundColor: "rgba(72, 199, 116, 0.5)",
+          data : {{ complete_mission_times.time_to_capture_all|tojson }},
+          spanGaps: false
+        }],
+    }
+
+    // get chart canvas
+    var ctx = document.getElementById("time_statistics_chart").getContext("2d");
+
+    // create the chart using the chart canvas
+    var pie_chart = new Chart(ctx, {
+      type: 'line',
+      data: chartData,
+      options: {
+        indexAxis: 'x',
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: 'Seconds'
+            }
+          },
+          x: {
+            title: {
+              display: true,
+              text: 'Mission Name'
+            }
+          },
+        }
+      }
+    });
+
+  </script>
+
+  <!-- Include the target capture statistics -->
+  <script>
+
+    Chart.defaults.color = "#000000";
+
+    // define the chart data
+    var chartData = {
+      labels : {{ target_statistics.TargetLabels|tojson }},
+      datasets : [
+        {
+          label: 'Discovery Time Range',
+          backgroundColor: "rgb(255, 221, 87)",
+          data : {{ target_statistics.TargetTimeToDiscoverRange|tojson }},
+          borderRadius: 10,
+          borderSkipped: false,
+        },
+        {
+          label: 'Capture Time Range',
+          backgroundColor: "rgb(72, 199, 116)",
+          data : {{ target_statistics.TargetTimeToCaptureRange|tojson }},
+          borderRadius: 10,
+          borderSkipped: false,
+        }],
+    }
+
+    // get chart cnvas
+    var ctx = document.getElementById("target_statistics_chart").getContext("2d");
+
+    // create the chart using the chart canvas
+    var pie_chart = new Chart(ctx, {
+      type: 'bar',
+      data: chartData,
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top',
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: 'Seconds'
+            }
+          },
+          x: {
+            title: {
+              display: true,
+              text: 'Target Name'
+            }
+          },
+        }
+      }
+    });
+
+  </script>
+
+  <!-- Include the tag analysis statistics-->
+  <script>
+
+    Chart.defaults.color = "#000000";
+
+    console.log({{tag_data.labels|tojson}})
+    console.log({{tag_data.data|tojson}})
+    {% for label, data, rgb, rgba in zip(tag_data.labels, tag_data.data, colors.rgb, colors.rgba) %}
+        console.log({{label|tojson}})
+    {% endfor %}
+
+    var chartData = {
+      labels : ["Fastest Mission Time", "Fastest Movement Time", "Least Distance Traveled", "Fastest Target Discovery Time"," Fastest Target Capture Time"],
+      datasets : [
+        {% for label, data, rgb, rgba in zip(tag_data.labels, tag_data.data, colors.rgb, colors.rgba) %}
+        {
+          label: {{ label|tojson }},
+          data : {{ data|tojson }},
+          borderColor: {{rgb|tojson}},
+          backgroundColor: {{rgba|tojson}},
+        },
+        {% endfor %}],
+    }
+
+    // get chart canvas
+    var ctx = document.getElementById("tag_chart").getContext("2d");
+
+    // create the chart using the chart canvas
+    var pie_chart = new Chart(ctx, {
+      type: 'radar',
+      data: chartData,
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top',
+          },
+        },
+        scales: {
+          r: {
+            min: -0.1,
+            beginAtZero: true,
+            ticks: {
+                display: false 
+            }
+          }
+        }
+      },
+    });
+
+  </script>
+
+  <!-- Include the target capture and discovery statistics -->
+  <script>
+
+    Chart.defaults.color = "#000000";
+
+    // define the chart data
+    var chartData = {
+      datasets : [
+      {% for label, data, rgb, rgba in zip(target_statistics.TargetLabels, target_statistics.TargetDiscoveryVsCapture, colors.rgb, colors.rgba) %}
+        {
+          label: {{label|tojson}},
+          borderColor: {{ rgb|tojson }},
+          backgroundColor: {{ rgb|tojson }},
+          data : {{ data|tojson }},
+        },
+      {% endfor %}
+      ],
+    }
+
+    // get chart canvas
+    var ctx = document.getElementById("discovery_and_capture_chart").getContext("2d");
+
+    // create the chart using the chart canvas
+    var pie_chart = new Chart(ctx, {
+      type: 'bubble',
+      data: chartData,
+      options: {
+        animation: {
+          duration: 0
+        },
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top',
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: 'Capture Time (Seconds)'
+            }
+          },
+          x: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: 'Discovery Time (Seconds)'
+            }
+          },
+        }
+      }
+    });
+
+  </script>
+
+ <!-- Include the Movement Analysis Statistics -->
+ <script>
+
+  Chart.defaults.color = "#000000";
+
+  // define the chart data
+  var chartData = {
+    labels : {{ distance_traveled.labels|tojson }},
+    datasets : [
+      {
+        label: 'Distance Traveled',
+        fill: false,
+        lineTension: 0.1,
+        borderColor: "rgb(32, 156, 238)",
+        backgroundColor: "rgba(32, 156, 238, 0.5)",
+        data : {{ distance_traveled.distance_traveled|tojson }},
+        spanGaps: false
+      }],
+  }
+
+  // get chart canvas
+  var ctx = document.getElementById("movement_anaylsis").getContext("2d");
+
+  // create the chart using the chart canvas
+  var pie_chart = new Chart(ctx, {
+    type: 'line',
+    data: chartData,
+    options: {
+      indexAxis: 'x',
+      scales: {
+        y: {
+          beginAtZero: true,
+          title: {
+            display: true,
+            text: 'Meters (m)'
+          }
+        },
+        x: {
+          title: {
+            display: true,
+            text: 'Mission Name'
+          }
+        },
+      }
+    }
+  });
+
+</script>
+
+</body>
+
+</html>

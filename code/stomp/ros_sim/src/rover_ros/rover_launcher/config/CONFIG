@@ -1,0 +1,5 @@
+# Udev Rules Configuration
+#
+#   sudo cp ~/rover/src/rover_launcher/config/10-ccast.rules /etc/udev/rules.d
+#   sudo udevadm control --reload-rules 
+#   sudo udevadm trigger

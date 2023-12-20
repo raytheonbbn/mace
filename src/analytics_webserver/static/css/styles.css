@@ -1,0 +1,23 @@
+/*   Approved for public release: distribution is unlimited. PA Case Number AFRL-2023-4617.
+
+*/
+
+/*   © 2023 Raytheon BBN Technologies Corp. All rights reserved. Sponsored by the Air Force Research Laboratory (AFRL)  
+
+
+*/
+
+/*   Copyright 2021-2023 Raytheon BBN Technologies.
+
+
+*/
+
+html,
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+body > footer {
+    margin-top: auto;
+}

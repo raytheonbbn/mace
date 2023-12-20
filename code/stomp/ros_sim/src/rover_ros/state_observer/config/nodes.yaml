@@ -1,0 +1,209 @@
+#  Approved for public release: distribution is unlimited. PA Case Number AFRL-2023-4617.
+
+#  © 2023 Raytheon BBN Technologies Corp. All rights reserved. Sponsored by the Air Force Research Laboratory (AFRL)  
+
+
+
+'roscore':
+  'topic': '/rosout'
+  'script': 'start_roscore.sh'
+  'method': 'node'
+  'topic_type': None
+  'timeout': 2.0
+
+'robot_description':
+  'topic': ''
+  'script': 'start_robot_description.sh'
+  'method': 'node'
+  'topic_type': None
+  'timeout': 5.0
+  
+'april_tags':
+  'topic': '/tag_detections'
+  'script': 'start_tag_detection.sh'
+  'method': 'node'
+  'topic_type': AprilTagDetectionArray
+  'timeout': 2.0
+
+'imu':
+  'topic': '/imu_razor'
+  'script': 'start_imu.sh'
+  'method': 'topic'
+  'topic_type': Imu
+  'timeout': 5.0
+  
+'state_obs':
+  'topic': '/system_diagnostics'
+  'script': 'start_state_observer.sh'
+  'method': 'node'
+  'topic_type': Diagnostics
+  'timeout': 2.0
+
+'mavproxy':
+  'topic': '/gps_navsat'
+  'script': 'start_mavproxy.sh'
+  'method': 'none'
+  'topic_type': NavSatFix
+  'timeout': 5.0
+
+'gps_driver':
+  'topic': '/gps_navsat'
+  'script': 'start_gps_driver.sh'
+  'method': 'topic'
+  'topic_type': NavSatFix
+  'timeout': 5.0
+  
+'gps_conv':
+  'topic': '/gps_fix'
+  'script': 'start_gps_converter.sh'
+  'method': 'topic'
+  'topic_type': GPSFix 
+  'timeout': 5.0
+  
+'utils':
+  'topic': '/map_pose'
+  'script': 'start_utilities.sh'
+  'method': 'node'
+  'topic_type': PoseWithCovarianceStamped
+  'timeout': 2.0
+  
+'rosbridge':
+  'name': 'rosbridge'
+  'topic': 9090
+  'script': 'start_rosbridge.sh'
+  'method': 'websocket'
+  'topic_type': None
+  'timeout' : 5.0
+
+'avoidance':
+  'topic': '/camera/color/image_raw'
+  'script': 'start_avoidance.sh'
+  'method': 'topic'
+  'topic_type': Image
+  'timeout': 5.0
+
+'tracking':
+  'topic': '/odom_vision'
+  'script': 'start_tracking.sh'
+  'method': 'topic'
+  'topic_type': Odometry
+  'timeout': 0.5
+
+'drive':
+  'topic': '/odom_wheel'
+  'script': 'start_drive.sh'
+  'method': 'topic'
+  'topic_type': Odometry
+  'timeout': 5.0
+
+'lidar':
+  'topic': '/scan'
+  'script': 'start_lidar.sh'
+  'method': 'topic'
+  'topic_type': LaserScan
+  'timeout': 5.0
+  
+'ekf': 
+  'topic': '/odom'
+  'script': 'start_ekf.sh'
+  'method': 'topic'
+  'topic_type': Odometry
+  'timeout': 5.0
+  
+'ekf_indoors': 
+  'topic': '/odom'
+  'script': 'start_ekf_indoors.sh'
+  'method': 'topic'
+  'topic_type': Odometry
+  'timeout': 5.0
+
+'navigation':
+  'topic': '/MOVE/local_costmap/costmap'
+  'script': 'start_nav.sh'
+  'method': 'node'
+  'topic_type': OccupancyGrid
+  'timeout': 10.0
+
+'navigation_global':
+  'topic': '/MOVE/local_costmap/costmap'
+  'script': 'start_nav_global.sh'
+  'method': 'node'
+  'topic_type': OccupancyGrid
+  'timeout': 10.0
+
+'navigation_transition':
+  'topic': '/MOVE/local_costmap/costmap'
+  'script': 'start_nav_transition.sh'
+  'method': 'node'
+  'topic_type': OccupancyGrid
+  'timeout': 10.0
+  
+'realsense':
+  'topic': '/camera/color/image_raw'
+  'script': 'start_realsense.sh'
+  'method': 'topic'
+  'topic_type': Image
+  'timeout': 5.0
+
+'map_tf':
+  'topic': '/TF_MAP'
+  'script': 'start_map_tf.sh'
+  'method': 'node'
+  'topic_type': OccupancyGrid
+  'timeout': 5.0
+  
+'hector_map':
+  'topic': '/map'
+  'script': 'start_hector_map.sh'
+  'method': 'node'
+  'topic_type': OccupancyGrid
+  'timeout': 0.5
+  
+'hector_map_transition':
+  'topic': '/map'
+  'script': 'start_hector_map_transition.sh'
+  'method': 'node'
+  'topic_type': OccupancyGrid
+  'timeout': 0.5
+  
+'control_global':
+  'topic': '/controller_check'
+  'script': 'start_control_global.sh'
+  'method': 'node'
+  'topic_type': Float64
+  'timeout': 5.0
+  
+'control_transition':
+  'topic': '/controller_check'
+  'script': 'start_control_global.sh'
+  'method': 'node'
+  'topic_type': Float64
+  'timeout': 5.0
+  
+'door_entry':
+  'topic': '/start_state_machine'
+  'script': 'start_door_entry.sh'
+  'method': 'service'
+  'topic_type': Float64
+  'timeout': 5.0
+  
+'map':
+  'topic': '/map'
+  'script': 'start_map.sh'
+  'method': 'topic'
+  'topic_type': OccupancyGrid
+  'timeout': 2.0
+  
+'explore':
+  'topic': '/cmd_explore'
+  'script': 'start_exploration_server.sh'
+  'method': 'service'
+  'topic_type': None
+  'timeout' : 5.0
+  
+'amcl':
+  'topic': '/map_pose'
+  'script': 'start_amcl.sh'
+  'method': 'topic'
+  'topic_type': PoseWithCovarianceStamped
+  'timeout': 2.0

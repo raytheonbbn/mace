@@ -1,0 +1,11 @@
+<launch>
+
+  <node pkg="tf" type="static_transform_publisher" name="TF_EARTH" args="0.0 0.0 0.0 -0.63 0.0 0.0 map map_align 1" />
+
+  <arg name="map_file" default="$(find rover_launcher)/maps/region/region.yaml"/>
+
+  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)">
+    <param name="frame_id"  type="string" value="map_align"/>
+  </node>
+
+</launch>

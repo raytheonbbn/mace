@@ -1,0 +1,560 @@
+<!--   Approved for public release: distribution is unlimited. PA Case Number AFRL-2023-4617.
+
+-->
+
+<!--   © 2023 Raytheon BBN Technologies Corp. All rights reserved. Sponsored by the Air Force Research Laboratory (AFRL)  
+
+
+-->
+
+<!--   Copyright 2021-2023 Raytheon BBN Technologies.
+
+
+-->
+
+<!DOCTYPE html>
+<html>
+
+{% include '_head.html' %}
+
+<body class="main">
+
+  {% include '_navbar.html' %}
+
+  <!-- Header -->
+  <section class="hero">
+    <div class="hero-body has-text-centered">
+      <p class="title">
+        MANAGING ACADEMIES' CHALLENGE EVALUATION
+      </p>
+      <p class="subtitle">
+        Tutorial
+      </p>
+    </div>
+  </section>
+
+  <!-- Content -->
+  <div class="container">
+    <div class="block">
+      <h1 class="title">Welcome</h1>
+
+      <p>Welcome to the MACE system. Here, you will:</p>
+      <ul style="padding-left: 1em">
+        <li> &bull; Learn basic MACE terms and concepts</li>
+        <li> &bull; Familiarize yourself with the graphical user interface</li>
+        <li> &bull; Learn how to perform basic MACE tasks</li>
+      </ul>
+
+        <br><p>The MACE project includes the systems used to design, stage, monitor, and evaluate the Joint Services Academies Collaborate Autonomy Challenge.  Over the course of the Challenge, you design and develop autonomous behaviors for a small collaborative swarm of robotic platforms to conduct a search and rescue mission. In the search and rescue operation, you prescribe interactions between the robots (your agents carrying MACE-provided payloads) and artifacts (MACE-provided targets) placed throughout the physical exercise location.<br><p>
+
+    </div>
+
+
+    <div class="block">
+      <h1 class="title">Basic MACE terms and concepts</h1>
+
+      <p>Before working with MACE, it is important to familiarize yourself with some basic system terms and concepts.</p>
+      <ul style="padding-left: 1em">
+        <li> &bull; Target: An asset that can represent items such as red forces, points of interest in the environment (e.g. a weapons cache, IED, etc.), or other entities (e.g. friendly or neutral)</li>
+        <li> &bull; Agent: An unmanned ground vehicle (UGV) or unmanned aircraft system (UAS)</li>
+        <li> &bull; Payload: A communications system that is part of the agent’s equipment and designed to interact with a target. Payloads report data to the analytics server, such as the position of the agent.</li>
+        <li> &bull; Solution: An algorithm used to find and capture targets</li>
+        <li> &bull; Analytics Server: A server that facilitates and logs communications between different MACE components</li>
+      </ul>
+      <br>
+      <h2 class="subtitle" style="font-weight:700">
+        Targets
+      </h2>
+
+      <p>There are four types of targets:</p>
+      <ul style="padding-left: 1em">
+        <li> &bull; Idle: Cannot be captured by payloads, only discovered.</li>
+        <li> &bull; Mass: Can be captured by payloads that meet specified criteria. The criteria are:</li>
+        <ul style="padding-left: 1em">
+          <li> &bull; Target state: (<code>captured</code>  or <code>active</code>)</li>
+          <li> &bull; Interaction range: The range within which the payload must be in relation to the target in order to be captured</li>
+          <li> &bull; Number of payloads: The number of payloads that must be within a target’s detection range to be captured</li>
+        </ul>
+        <li> &bull; Periodic (Peri): Maintains a timer to check that specified criteria are met within a specific timeframe.  The criteria are:</li>
+        <ul style="padding-left: 1em">
+          <li> &bull; Target state: (<code>captured</code>  or <code>active</code>)</li>
+          <li> &bull; Interaction range: The range within which the payload must be in relation to the target in order to be captured</li>
+          <li> &bull; Number of payloads: The number of payloads that must be within a target’s detection range to be captured</li>
+          <li> &bull; Time duration: The amount of time within which the specified number of payloads must be within the specified detection range.</li>
+        </ul>
+        <li> &bull; Linked (Link): Maintains a connection with other targets specified as “link.” The set of link targets is called a linked network. Link targets are captured in the same way as Mass targets, with one exception: you must have an agent in range of each Link target in a network simultaneously in order to capture them. Criteria for the Link target are:</li>
+        <ul style="padding-left: 1em">
+          <li> &bull; Target state for each Linked target in the network: (<code>captured</code>  or <code>active</code>)</li>
+          <li> &bull; Linked network state: (<code>captured</code>  or <code>active</code>)</li>
+          <li> &bull; Interaction range: The range within which the payload must be in relation to the target in order to be captured</li>
+        </ul>
+      </ul>
+
+        <br><b>
+          Capturing targets permanently or temporarily (supression)
+        </b>
+
+        <br><p>Targets are captured when the configured capture criteria are met. If the criteria are no longer met (e.g., the payload is no longer within range of the target), you can choose whether or not the target should remain in the captured state.</p>
+        <br><p>By default, once captured, the target is permanently captured. You can suppress this behavior when configuring the target, by changing the default Suppression setting from “False” to “True”.</p>
+      <br>
+      <h2 class="subtitle" style="font-weight:700">
+        Agents
+      </h2>
+
+      <p>An agent is one of the following:</p>
+      <ul style="padding-left: 1em">
+        <li> &bull; An unmanned aircraft system (UAS), or “quad”,</li> shown as <img src="static/images/QuadBlue.png" alt="Blue symbol"> on the map
+        <li> &bull; An unmanned ground vehicle (UGV), or “rover”,</li> shown as <img src= "static/images/RoverBlue.png" alt="Blue rectangle"> on the map
+      </ul>
+
+        <br><p>You can configure the number and type of agents in the <code>docker-compose.yaml</code> file.</p>
+        <br>
+        <h2 class="subtitle" style="font-weight:700">
+          Payloads
+        </h2>
+
+        <p>Payloads communicate with targets and report data to the analytics server. Payloads are carried by agents, and represent the geolocation of the agent.</p>
+        <br><p>By default, payloads are IDLE and can only discover (but not capture) targets. In order to capture a target, at least one payload “intent” must be set.  There are three possible intents for payloads: MASS, PERI, and LINK.  You can set one, two, or all three intents for a payload.</p>
+        <br><p>One of the payload’s intents must be the same as the target type in order to be able to capture it. For example, a MASS target can be captured by a payload with an intent of just MASS, or by a payload with an intent of MASS, PERI, and LINK.</p>
+        <br>
+        <h2 class="subtitle" style="font-weight:700">
+          Analytics server
+        </h2>
+
+        <p>The analytics server tracks the state of payloads and targets, and sends out updates via an MQTT Server (publish/subscribe). It also logs messages and the payload/target state data.</p>
+
+    </div>
+
+    <div class="block">
+      <h1 class="title">The STOMP GUI</h1>
+
+      <p>The STOMP GUI is comprised of four main areas:</p>
+      <ul style="padding-left: 1em">
+        <li> &bull; Execution: A toolbar with a series of buttons used to take specific actions</li>
+        <li> &bull; Map: Displays the location of the targets and agents</li>
+        <li> &bull; Payloads: A list of all the payloads in the simulation</li>
+        <li> &bull; Targets: A list of all the targets in the simulation</li>
+      </ul>
+
+        <br><p>You can adjust the display of the four areas on the screen as needed.  You can also maximize or minimize any of the four areas of the STOMP GUI.</p>
+      <br>
+      <h2 class="subtitle" style="font-weight:700">
+        Execution
+      </h2>
+
+      <p>The Execution toolbar include a range of buttons to use as you work with MACE.  They are explained in more depth as features are explained below.</p>
+      <br>
+      <h2 class="subtitle" style="font-weight:700">
+        Map
+      </h2>
+
+      <p>Use your mouse to navigate the map displayed in MACE:<br><p>
+        <ul style="padding-left: 1em">
+          <li> &bull; Left-click and drag to move the map</li>
+          <li> &bull; Right-click and hold to rotate and move at an angle</li>
+        </ul>
+
+        <br><p>The compass on the top right of the Map area displays current orientation.  The map on the upper left displays the current global position.</p>
+        <br><p>Use the <img src="static/images/Controller.png" height="40" width="auto" alt="round directional pad"> directional pad controller on the bottom left of the map to move in the designated direction. Clicking the controller’s arrows on the outer edge moves in the designated direction relatively faster, while clicking on a side of the inner plus sign moves in the designated direction relatively slower.</p>
+        <br><p>You can also:</p>
+        <ul style="padding-left: 1em">
+          <li> &bull; Use <img src="static/images/Plus.png" alt="plus"> and <img src="static/images/Minus.png" alt="minus"> to zoom in or out</li>
+          <li> &bull; Use <img src="static/images/CurvedArrowLeft.png" alt="curved arrow left"> and <img src="static/images/CurvedArrowRight.png" alt="curved arrow right"> to rotate right or left</li>
+          <li> &bull; Use <img src="static/images/ThreeLines.png" alt="horizontal three lines"> and <img src="static/images/ThreeLines2.png" alt="vertical three lines"> to rotate the earth in or out</li>
+          <li> &bull; Use <img src="static/images/Icon1.png" alt="jagged lines"> and <img src="static/images/Icon2.png" alt="flat jagged line">  to scale up or down the map terrain</li>
+        </ul>
+        <br><p>As you move around the map with your cursor, your position (altitude, longitude, latitude, and elevation) is displayed at the bottom of the screen.</p>
+        <br>
+        <h2 class="subtitle" style="font-weight:700">
+          Payloads
+        </h2>
+
+        <p>The Payloads area lists:</p>
+        <ul style="padding-left: 1em">
+          <li> &bull; UID: The agent identifier</li>
+          <li> &bull; Time: The current local time. Note that if the agent is out of communication for a while, the table row changes color to indicate a stale connection.</li>
+          <li> &bull; Altitude: The altitude of the drone, if applicable</li>
+          <li> &bull; IPs: Shows the IP address of the Raspberry Pi if it is not a simulated entity. Otherwise, this field displays “Sim”.</li>
+          <li> &bull; Intent(s): The type of target the payload can discover and capture</li>
+        </ul>
+        <br>
+        <h2 class="subtitle" style="font-weight:700">
+          Targets
+        </h2>
+
+        <p>The Targets area lists:<p/>
+          <ul style="padding-left: 1em">
+            <li> &bull; UID: The target identifier</li>
+            <li> &bull; Time: The current local time. Note that if the agent is out of communication for a while, the table row changes color to indicate a stale connection.</li>
+            <li> &bull; Latitude: The latitude of the target</li>
+            <li> &bull; Longitude: The longitude of the target</li>
+            <li> &bull; Altitude: The altitude of the target</li>
+            <li> &bull; Type: The type of target</li>
+            <li> &bull; Payloads: The number of payloads required to discover and capture the target</li>
+            <li> &bull; Details: For a PERI target, this column displays the countdown of time remaining to capture the target</li>
+            </li>Discovered: The status of the target (Undiscovered or Discovered)</li>
+            <li> &bull; Suppression: The behavior of the target once captured (True or False). By default, targets remain captured once they are captured. If that behavior is suppressed (Suppression is set to True), targets can become “un-captured” once the capture criteria are no longer met.</li>
+          </ul>
+
+        <br><p>Note that when a target is captured, the entire row is grayed out.</p>
+
+    </div>
+
+    <div class="block">
+      <h1 class="title">Performing basic MACE tasks</h1>
+
+      <p>In this tutorial, MACE is set for six agents (four quads and two rovers), each with payloads that are set to IDLE.  It also has six targets (each set to IDLE) ready for you to place and configure.  The number of quads, rovers, and targets can be changed in the <code>docker-compose.yaml</code> file.</p>
+
+      <br><p>By default, agents are located at Raytheon BBN in Cambridge, MA, USA.  For the purposes of this tutorial, agents remain at their default Raytheon BBN location.</p>
+      <br>
+      <h2 class="subtitle" style="font-weight:700">
+        Placing targets
+      </h2>
+
+      <p>In this tutorial, place one target first and then place multiple targets.</p>
+      <ol style="padding-left: 2em">
+        <li>   Click Target Positions.</li>
+        <li>   Select Target_0.</li>
+        <li>   Right-click the desired position for the target on the map. A circle marks the intended location.</li>
+        <li>   Click Execute. The Target_0 is placed and displayed as a <img src="static/images/Target_icon.png" alt="Target"> on the map.</li>
+      </ol>
+
+      <br><video controls>
+        <source src="{{url_for('static', filename='videos/30_Place_Target.webm')}}" type="video/webm">
+      </video><br>
+
+      <br><p>Place the remaining five targets:</p>
+      <ol style="padding-left: 2em">
+        <li>   Click Target Positions.</li>
+        <li>   Select Targets 1-5.</li>
+        <li>   Right-click in the five desired locations on the map.  Circles mark the intended locations.</li>
+        <li>   Click Execute. The five targets are placed and displayed as <img src="static/images/Target_icon.png" alt="Target"> on the map.</li>
+      </ol>
+
+
+      <br><video controls>
+        <source src="{{url_for('static', filename='videos/40_Place_Multiple_Targets.webm')}}" type="video/webm">
+      </video><br>
+      <br>
+      <h2 class="subtitle" style="font-weight:700">
+        Configuring targets
+      </h2>
+
+      <p>When you configure targets, you set the following information:</p>
+      <ul style="padding-left: 1em">
+        <li> &bull; Type: (IDLE, MASS, PERI, or LINK). By default, type is set to IDLE.</li>
+        <li> &bull; Interaction range: The distance within which the payload must be from the target in order to discover or capture it. By default, the interaction range is 5 meters.</li>
+        <li> &bull; Payloads required: The number of payloads required to discover and capture the target. By default, the number of payloads required is 1.</li>
+        <li> &bull; Suppression: The behavior of the target once captured. When set to False, captured targets remain permanently captured. When set to True, captured targets are "suppressed" and remain suppressed as long as capture criteria are met. By default, Suppression is set to False.</li>
+      </ul>
+      <br><p>In this tutorial, configure the targets as described here:</p>
+      <ul style="padding-left: 1em">
+        <li> &bull; Target_0: MASS (with one payload),  15 meter interaction range</li>
+        <li> &bull; Target_1: MASS (with two payloads), 15 meter interaction range</li>
+        <li> &bull; Target_2: PERI (with two payloads and a Capture Countdown of 60), 15 meter interaction range</li>
+        <li> &bull; Target_3: PERI (with two payloads and a Capture Countdown of 60), 15 meter interaction range</li>
+        <li> &bull; Target_4: LINK (with a Network Name “Network1”), 15 meter interaction range</li>
+        <li> &bull; Target_5: LINK (with a Network Name “Network1”), 15 meter interaction range</li>
+      </ul>
+
+      <br><p><b>Configure Target_0:</b></p>
+      <ol style="padding-left: 2em">
+        <li>   Click Configuration.</li>
+        <li>   In the Payload/Target Configuration box, click Targets.</li>
+        <li>   Select Target_0.</li>
+        <li>   In the Type drop-down, select MASS.</li>
+        <li>   In the Interaction Range field, enter 15.</li>
+        <li>   Click Execute.</li>
+      </ol>
+
+      <br><p><b>Configure Target_1:</b></p>
+      <ol style="padding-left: 2em">
+        <li>   Click Configuration.</li>
+        <li>   In the Payload/Target Configuration box, click Targets.</li>
+        <li>   Select Target_1.</li>
+        <li>   In the Type drop-down, select MASS.</li>
+        <li>   In the Interaction Range field, enter 15.</li>
+        <li>   In the Payloads Required field, enter 2.</li>
+        <li>   Click Execute.</li>
+      </ol>
+
+      <br><p><b>Configure Target_2 and Target_3:</b></p>
+      <ol style="padding-left: 2em">
+        <li>   Click Configuration.</li>
+        <li>   In the Payload/Target Configuration box, click Targets.</li>
+        <li>   Select Target_2 and Target_3.</li>
+        <li>   In the Type drop-down, select PERI.</li>
+        <li>   In the Interaction Range field, enter 15.</li>
+        <li>   In the Payloads Required field, enter 2.</li>
+        <li>   In the Capture Countdown(s) field, enter 60.</li>
+        <li>   Click Execute.</li>
+      </ol>
+
+      <br><p><b>Configure Target_4 and Target_5:</b></p>
+      <ol style="padding-left: 2em">
+        <li>   Click Configuration.</li>
+        <li>   In the Payload/Target Configuration box, click Targets.</li>
+        <li>   Select Target_4 and Target_5.</li>
+        <li>   In the Type drop-down, select LINK.</li>
+        <li>   In the Network Name field, enter Network1.</li>
+        <li>   In the Interaction Range field, enter 15.</li>
+        <li>   Click Execute.</li>
+      </ol>
+
+      <br><video controls>
+        <source src="{{url_for('static', filename='videos/50_Cfg_Targets.webm')}}" type="video/webm">
+      </video><br>
+      <br>
+      <br>
+      <h2 class="subtitle" style="font-weight:700">
+        Discovering targets
+      </h2>
+
+      <p>Discovering targets enables you to learn more information about them prior to attempting to capture them.  Prior to discovery, you cannot see any details about the target type or other capture criteria.  Once discovered, you can see the target type on the map and see associated target details in the Target pane.</p>
+      <br><p>To discover targets, you move payloads close to the targets within the defined interaction range.  Note that IDLE payloads or payloads with any intent can all discover targets.  If the payload does not meet the target’s capture criteria, then the target is discovered but not captured.  If the criteria are met, then both discovery and capture occur at the same time.</p>
+      <br><p>If needed, you can explicitly set a target’s discovery status using the Set Discovered button.</p>
+
+
+      <br><b>
+        Sending a payload to discover targets (GoTo)
+      </b>
+
+      <br><p>To discover or capture a target, you send a payload to a point within the required interaction range. You can direct a payload to one specific point or send it on a path comprised of multiple points.  In this tutorial, you add six points to create a path for the agent (with its payload) to follow to scout for the six targets. Remember that the payload in this tutorial is currently set to IDLE and can therefore only discover but not capture the targets.</p>
+
+      <ol style="padding-left: 2em">
+        <li>   Click Go To.</li>
+        <li>   Select Quad_O to use to scout out every target.</li>
+        <li>   Right-click next to every target.  Lines connect each point placed, representing the path that the payloads take to scout for targets.</li>
+        <li>   Note that in the GoTo window, you can double-click in the Altitude field and change the altitude of the agent.  By default, the altitude is set to 1m.</li>
+        <li>   Click Execute.</li>
+      </ol>
+      <br>
+
+      <br><video controls>
+        <source src="{{url_for('static', filename='videos/60_Discover.webm')}}" type="video/webm">
+      </video><br>
+
+      <br><p>At this point, you can watch the payload move along the path. As the payload approaches a target, you can see that the target name changes on the map from Target_0 to MASS-Target_0. You can also see the target configuration details appear in the Target pane.</p>
+      <br><p>If desired, you can set the behavior of the agent when the payload reaches its final point on the path.</p>
+
+      <br>
+      <h2 class="subtitle" style="font-weight:700">
+        Capturing targets
+      </h2>
+
+      <p>Now that you have discovered the targets, you can proceed to capturing them. Keep in mind that as you work with the system outside of this tutorial, discovery and capture can happen simultaneously.  For the purposes of this tutorial, discover and capture are shown separately.</p>
+
+      <br><b>
+        Configuring payloads to capture targets
+      </b>
+
+      <br><p>Here, you configure your payloads to be able to capture them. For this tutorial, you set all payloads to be able to capture any kind of target (MASS, PERI, or LINK).
+      Note that you can set specific payloads with a more restricted intent according to your needs.</p>
+      <ol style="padding-left: 2em">
+        <li>   Click Configuration.</li>
+        <li>   In the Payload/Target Configuration box, click Payloads.</li>
+        <li>   Click Select all.</li>
+        <li>   In the Intent 1 drop-down, select MASS.</li>
+        <li>   In the Intent 2 drop-down, select PERI.</li>
+        <li>   In the Intent 3 drop-down, select LINK.</li>
+        <li>   Click Execute. In the Payloads pane, the newly set intents are displayed.</li>
+      </ol>
+
+      <br><video controls>
+        <source src="{{url_for('static', filename='videos/70_Cfg_Payloads.webm')}}" type="video/webm">
+      </video><br>
+
+      <br><b>
+        Capturing MASS targets
+      </b>
+
+      <br><p>Here, you send one payload to capture MASS_Target_0.</p>
+      <ol style="padding-left: 2em">
+        <li>   Click GoTo.</li>
+        <li>   In the Payloads window, select Quad_0; PAYLOAD.</li>
+        <li>   Right-click on the map near MASS_Target_0.  The information is displayed in the Positions tab.</li>
+        <li>   Click Execute. The run begins.</li>
+      </ol>
+
+      <br><p>When Quad_1 is in range of MASS_Target_0, the target is captured. The target symbol has an x superimposed on it <img src="static/images/CapturedTarget.png" alt="Captured target"> and the target in the Targets pane is grayed out.</p>
+
+      <br><video controls>
+        <source src="{{url_for('static', filename='videos/80_Capture_MASS1.webm')}}" type="video/webm">
+      </video><br>
+
+      <br><p>Whereas MASS_Target_0 required one payload for capture, MASS_Target_1 requires two payloads. Here, we send Quad_0 and Quad_1 to the same point to capture MASS_Target_1.</p>
+      <ol style="padding-left: 2em">
+        <li>   Click GoTo.</li>
+        <li>   In the GoTo window, select Quad_O and Quad_1: PAYLOAD.</li>
+        <li>   Right-click on the map near MASS_Target_1.</li>
+        <li>   Click Execute.</li>
+      </ol>
+        <br><p>When Quad_0 and Quad_1 are both in range of MASS_Target_0, the target is captured. The target symbol has an x superimposed on it <img src="static/images/CapturedTarget.png" alt="Captured target"> and the target in the Targets pane is grayed out.</p>
+
+        <br><video controls>
+          <source src="{{url_for('static', filename='videos/90_Capture_MASS2.webm')}}" type="video/webm">
+        </video><br>
+
+        <br><b>
+          Enabling and disabling collisions
+        </b>
+
+        <br><p>When you send payloads to the exact same point, they collide with one another. By default, the system ignores the collision (as you are in simulation mode only). For testing purposes, if you want to receive an alert that a collision has occurred, click Enable Collisions in the Execution toolbar.</p>
+
+        <br><b>
+          Capturing PERI targets
+        </b>
+
+        <br><p>PERI targets function similarly to a MASS target, except that a PERI target includes a timing component. To use the timing component, a PERI target must require at least two payloads. After the first target is captured, the countdown begins and the second (or any other) payloads must come within the interaction range before the countdown timer reaches zero.</p>
+        <br><p>Note that if a PERI target is configured to require just one payload, it behaves exactly like a MASS target.</p>
+        <br><p>Here, you capture the first PERI target you created, PERI_Target_2.</p>
+        <ol style="padding-left: 2em">
+          <li>   Click GoTo.</li>
+          <li>   In the Payloads window, select Quad_2; PAYLOAD.</li>
+          <li>   Right-click on the map near PERI_Target_2.  The information is displayed in the Positions tab.</li>
+          <li>   Click Execute. The run begins.</li>
+        </ol>
+
+        <br><p>Once the payload comes within the interaction range, the countdown timer begins.  You must now send another payload to the same target before the timer reaches zero.</p>
+        <ol style="padding-left: 2em">
+          <li>   Click GoTo.</li>
+          <li>   In the Payloads window, select Quad_0; PAYLOAD.</li>
+          <li>   Click on the map near the same target, PERI_Target_2. The information is displayed in the Positions tab.</li>
+          <li>   Click Execute. The run begins.</li>
+        </ol>
+
+        <br><p>If the second payload reaches the target before the timer reaches zero, the target is captured. The target symbol has an x superimposed on it <img src="static/images/CapturedTarget.png" alt="Captured target"> and the target in the Targets pane is grayed out.</p>
+
+        <br><video controls>
+          <source src="{{url_for('static', filename='videos/100_Capture_PERI.webm')}}" type="video/webm">
+        </video><br>
+
+        <br><b>
+          Changing the target type
+        </b>
+
+        <br><p>When you originally configured your targets in this tutorial, the first and second PERI targets were identical. You now change the second PERI target to be a part of the LINK network.</p>
+        <br><p>Edit a target type or its configuration data via the Configuration button in the Execution toolbar.</p>
+        <ol style="padding-left: 2em">
+          <li>   Click Configuration.</li>
+          <li>   In the Payload/Target Configuration window, click Targets.</li>
+          <li>   Select Target_3.</li>
+          <li>   In the Type drop-down, select LINK.</li>
+          <li>   In the Network Name field, enter Network1.</li>
+          <li>   In the Interaction Range field, enter 15.</li>
+          <li>   Click Execute. There are now three targets in the Network1 network.</li>
+        </ol>
+
+        <br><video controls>
+          <source src="{{url_for('static', filename='videos/110_ChangeToLink.webm')}}" type="video/webm">
+        </video><br>
+
+        <br><b>
+          Capturing LINK targets
+        </b>
+
+        <br><p>To capture a network of targets, you must capture each of the targets in the network individually.</p>
+        <ol style="padding-left: 2em">Click GoTo.
+          <li>   In the Payloads window, select Quad_0; PAYLOAD.</li>
+          <li>   Click on the map near LINK_Target_3.  The information is displayed in the Positions tab.</li>
+          <li>   Click Execute. The run begins.</li>
+        </ol>
+
+        <br><p>When LINK_Target_3 is captured, the target is grayed out in the Targets pane. Send the next payload to capture the next target in the network.</p>
+        <ol style="padding-left: 2em">
+          <li>   Click GoTo.</li>
+          <li>   In the Payloads window, select Quad_1; PAYLOAD.</li>
+          <li>   Click on the map near LINK_Target_4.  The information is displayed in the Positions tab.</li>
+          <li>   Click Execute. The next run begins.</li>
+        </ol>
+
+        <br><p>When LINK_Target_4 is captured, the target is grayed out in the Targets pane. Send the next payload to capture the next target in the network.</p>
+        <ol style="padding-left: 2em">
+          <li>   Click GoTo.</li>
+          <li>   In the Payloads window, select Quad_3; PAYLOAD.</li>
+          <li>   Click on the map near LINK_Target_5.  The information is displayed in the Positions tab.</li>
+          <li>   Click Execute. The next run begins.</li>
+        </ol>
+
+        <br><p>Once the final target in the network is captured, the target is grayed out in the Targets pane.  When all three targets in this network are captured, the entire network is considered captured and stays permanently captured. On the map, the connections on the path turn black (instead of red), and the targets have an x superimposed on them <img src="static/images/CapturedTarget.png" alt="Captured target">.</p>
+
+        <br><video controls>
+          <source src="{{url_for('static', filename='videos/120_Capture_Link.webm')}}" type="video/webm">
+        </video><br>
+
+        <br>
+        <h2 class="subtitle" style="font-weight:700">
+          Saving targets
+        </h2>
+
+        <p>If you want to save different configuration information to use for various testing purposes, you can save that information to a file.</p>
+        <ol style="padding-left: 2em">
+          <li>   Click the File menu and select Save Target Configuration (or click CTRL-S).</li>
+          <li>   Navigate to where you want to save the file, and enter “example”.</li>
+          <li>   Click Save.</li>
+        </ol>
+
+        <br><video controls>
+          <source src="{{url_for('static', filename='videos/130_Save_Targets.webm')}}" type="video/webm">
+        </video><br>
+        <br>
+        <h2 class="subtitle" style="font-weight:700">
+          Resetting targets
+        </h2>
+
+        <p>When you reset the system, you reset the targets back to their default IDLE setting.  All targets revert to being undiscovered and uncaptured (but their position remains the same).  Payloads are unaffected by a reset.</p>
+
+        <br><p>MACE keeps a running log of system activity. When you reset the system, you start a new log at the same time as resetting all target information.<br><p>
+          <ol style="padding-left: 2em">
+            <li>   Click Reset in the Execution toolbar.</li>
+            <li>   Enter a name for the new log file.</li>
+            <li>   Click OK.</li>
+          </ol>
+
+        <br><video controls>
+          <source src="{{url_for('static', filename='videos/140_Reset.webm')}}" type="video/webm">
+        </video><br>
+        <br>
+        <h2 class="subtitle" style="font-weight:700">
+          Loading target configuration
+        </h2>
+
+        <p>When you want to use your saved target configuration information, load the <code>.json</code> file.</p>
+        <ol style="padding-left: 2em">
+          <li>   Click the File menu and select Load Target Configuration (or click CTRL-O).</li>
+          <li>   Navigate to the saved <code>example.json</code> file.</li>
+          <li>   Click Open.</li>
+        </ol>
+        <br>
+        <h2 class="subtitle" style="font-weight:700">
+          Moving agents (and their payloads) to a new location
+        </h2>
+
+        <p>By default, agents are located at Raytheon BBN in Cambridge, MA, USA. You can switch locations to any of the other preset locations:</p>
+        <ul style="padding-left: 1em">
+          <li> &bull; US Capitol</li>
+          <li> &bull; Colorado Fields</li>
+          <li> &bull; West Point</li>
+        </ul>
+
+        <br><p>To set a new location:</p>
+        <ol style="padding-left: 2em">
+          <li>   Click the Map Location button.</li>
+          <li>   In the Map Of drop-down list, choose a new location.</li>
+          <li>   Click Apply. Payloads (but not targets) are teleported to the new location.</li>
+        </ol>
+          <br><p>Note that targets would need to be repositioned.</p>
+
+        <br><video controls>
+          <source src="{{url_for('static', filename='videos/150_Change_Location.webm')}}" type="video/webm">
+        </video><br>
+
+    </div>
+
+  </div>
+
+  {% include '_footer.html' %}
+
+</body>
+
+</html>

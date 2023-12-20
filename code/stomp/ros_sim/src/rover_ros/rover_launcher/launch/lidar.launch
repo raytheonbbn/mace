@@ -1,0 +1,21 @@
+<launch>
+
+  <!-- <node pkg="tf" type="static_transform_publisher" name="TF_LIDAR" args="0.0 0.0 0.25 0.0 0.0 0.0 base_link lidar_link 10" /> -->
+
+  <node pkg="rplidar_ros"  type="rplidarNode" name ="LIDAR" output="screen">
+    <param name="serial_port"         type="string" value="/dev/rplidar"/>
+    <param name="serial_baudrate"     type="int"    value="115200"/>
+    <param name="frame_id"            type="string" value="lidar_link"/>
+    <param name="inverted"            type="bool"   value="false"/>
+    <param name="angle_compensate"    type="bool"   value="true"/>
+    <remap from="scan" to="scan_raw" />
+  </node>
+
+  <node pkg="laser_filters" type="scan_to_scan_filter_chain" name="laser_filter">
+    <rosparam command="load" file="$(find rover_launcher)/params/lidar_filter.yaml" />
+    <remap from="scan" to="scan_raw" />
+    <remap from="scan_filtered" to="scan" />
+  </node>
+
+
+</launch>

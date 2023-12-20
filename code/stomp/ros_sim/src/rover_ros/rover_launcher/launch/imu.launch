@@ -1,0 +1,25 @@
+<launch>
+
+  <!-- <node pkg="tf" type="static_transform_publisher" name="TF_IMU" args="0.0 0.0 0.0 0 0.0 -1.5707 base_link imu_link 10" /> -->
+
+  <arg name="razor_config_file" default="$(find rover_launcher)/params/imu.yaml"/>
+
+  <node pkg="rover_imu_driver" type="node.py" name="IMU" output="screen">
+    <param name="frame_id" type="string" value="imu_link"/>
+    <param name="publish_tf" type="bool" value="false"/>
+    <rosparam file="$(arg razor_config_file)" command="load"/>
+    <remap from="diagnostics" to="/imu/diagnostics"/>
+    <remap from="/imu" to="/imu_razor"/>
+    <remap from="/IMU/parameter_descriptions" to="/imu/descriptions"/>
+    <remap from="/IMU/parameter_updates" to="/imu/updates"/>
+  </node>
+  
+  <!-- <node pkg="imu_filter_madgwick" type="imu_filter_node" name="IMU_FILT" output="screen">
+		<param name="publish_tf" value="false" />
+		<param name="world_frame" value="enu" />
+		<remap from="/imu/data" to="/imu_razor" />
+		<remap from="/imu/data_raw" to="/imu_raw" />
+		<remap from="/imu/mag" to="/mavros/imu/mag" />
+	</node> -->
+
+</launch>

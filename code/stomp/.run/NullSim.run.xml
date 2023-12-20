@@ -1,0 +1,17 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="NullSim" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="com.bbn.ccast.visualizer.WorldWindVisualization" />
+    <module name="stomp.main" />
+    <option name="PROGRAM_PARAMETERS" value="--propertiesFile ccastConfig.properties --propertiesFile sim.properties --propertiesFile localDevice.properties --propertiesFile regions/cambridge/cambridgeRegion.properties --numSolos=5 --numDownFacingSolos=1 --visualize=true" />
+    <option name="VM_PARAMETERS" value="-Dsun.awt.disableMixing=True" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="com.bbn.ccast.visualizer.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

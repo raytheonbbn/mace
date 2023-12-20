@@ -1,0 +1,17 @@
+<launch>
+  <arg name="launch_prefix" default="" /> <!-- set to value="gdbserver localhost:10000" for remote debugging -->
+  <arg name="node_namespace" default="FWDAT" />
+  <arg name="camera_name" default="/camera_rect" />
+  <arg name="camera_frame" default="camera" />
+  <arg name="image_topic" default="image_rect" />
+
+  <!-- Set parameters -->
+  <rosparam command="load" file="$(find rover_launcher)/params/settings_old.yaml" ns="$(arg node_namespace)" />
+  <rosparam command="load" file="$(find rover_launcher)/params/tags_old.yaml" ns="$(arg node_namespace)" />
+  
+  <node pkg="apriltag_ros" type="apriltag_ros_continuous_node" name="$(arg node_namespace)" clear_params="true" output="screen" launch-prefix="$(arg launch_prefix)" >
+    <param name="camera_frame" type="str" value="camera_depth_optical_frame" />
+    <param name="remove_duplicates" type="bool" value="false" />
+    <param name="publish_tag_detections_image" type="bool" value="true" />
+  </node>
+</launch>

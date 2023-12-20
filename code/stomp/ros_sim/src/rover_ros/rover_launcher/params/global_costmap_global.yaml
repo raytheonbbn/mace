@@ -1,0 +1,59 @@
+#  Approved for public release: distribution is unlimited. PA Case Number AFRL-2023-4617.
+
+#  © 2023 Raytheon BBN Technologies Corp. All rights reserved. Sponsored by the Air Force Research Laboratory (AFRL)  
+
+
+
+global_costmap:
+  global_frame: odom
+  robot_base_frame: base_link
+
+  update_frequency: 5.0
+  publish_frequency: 1.0
+  transform_tolerance: 0.1
+
+  rolling_window: true
+  width: 30.0
+  origin_x: -15.0
+  height: 30.0
+  origin_y: -15.0
+  resolution: 0.25
+  inflation_radius: 5.0
+  scaling_factor: 0.1
+
+  plugins:
+  # - {name: static, type: "costmap_2d::StaticLayer"}
+  - {name: obstacle, type: "costmap_2d::ObstacleLayer"}
+  - {name: inflation, type: "costmap_2d::InflationLayer"}
+
+  clearable_layers: ["obstacle", "inflation"] 
+
+  obstacle:
+
+    obstacle_range: 5.0
+    raytrace_range: 7.0
+
+    observation_sources: scan stereo
+
+    scan: {
+      sensor_frame: lidar_link, 
+      data_type: LaserScan, 
+      topic: scan, 
+      marking: true, 
+      clearing: true
+      }
+
+    stereo: {
+      sensor_frame: camera_link, 
+      data_type: PointCloud2, 
+      topic: /obstacles,
+      marking: true, 
+      clearing: true, 
+      max_obstacle_height: 0.25, 
+      min_obstacle_height: 0.01
+      }
+
+  inflation:
+
+    inflation_radius: 0.95
+

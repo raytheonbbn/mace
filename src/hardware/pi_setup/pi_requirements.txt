@@ -1,0 +1,5 @@
+gps3
+paho-mqtt
+pyserial
+pygatt
+

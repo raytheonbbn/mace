@@ -1,0 +1,9 @@
+string cmd
+string target_mode
+string entryId
+string dataDir
+string regionId
+string regionDir
+geometry_msgs/Pose initialPose
+---
+string success

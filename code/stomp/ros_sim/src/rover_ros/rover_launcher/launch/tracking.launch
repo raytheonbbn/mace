@@ -1,0 +1,36 @@
+
+<launch>
+
+  <arg name="device_type_camera1"    		default="t2.5"/>
+  <arg name="serial_no_camera1"    			default=""/>
+  <arg name="camera1"              			default="tracking"/>
+  <arg name="tf_prefix_camera1"         default="$(arg camera1)"/>
+  <arg name="initial_reset"             default="false"/>
+  <arg name="enable_fisheye"            default="false"/>
+  <arg name="topic_odom_in"             default=""/>
+  <arg name="calib_odom_file"           default=""/> 
+  <arg name="publish_tf"                default="false"/>
+  <arg name="publish_odom_tf"           default="false"/>
+  <remap from="/tracking/camera/odom/sample" to="/odom_vision"/>
+
+  <group ns="$(arg camera1)">
+    <include file="$(find rover_launcher)/launch/realsense_tracking.launch" >
+      <arg name="device_type"           value="$(arg device_type_camera1)"/>
+      <arg name="serial_no"             value="$(arg serial_no_camera1)"/>
+      <arg name="tf_prefix"         		value="$(arg tf_prefix_camera1)"/>
+      <arg name="enable_fisheye1"       value="$(arg enable_fisheye)"/>
+      <arg name="enable_fisheye2"       value="$(arg enable_fisheye)"/>
+      <arg name="initial_reset"         value="$(arg initial_reset)"/>
+      <arg name="fisheye_fps"           value="30"/>
+      <arg name="gyro_fps"              value="30"/>
+      <arg name="accel_fps"             value="62"/>
+      <arg name="enable_gyro"           value="false"/>
+      <arg name="enable_accel"          value="false"/>
+      <arg name="publish_odom_tf"       value="false"/>
+      <arg name="enable_pose"           value="true"/>
+      <arg name="odom_frame_id"         value="odom"/>
+      <arg name="pose_frame_id"         value="base_link"/>
+    </include>
+  </group>
+  
+</launch>

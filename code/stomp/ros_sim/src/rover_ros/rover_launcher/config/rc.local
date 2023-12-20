@@ -1,0 +1,7 @@
+#!/bin/sh -e
+
+/usr/local/bin/start_modem.py &
+
+su nvidia /home/nvidia/rover/src/rover_ros/rover_launcher/bin/start.sh
+
+exit 0

@@ -1,0 +1,30 @@
+<launch>
+
+  <!-- <node pkg="tf" type="static_transform_publisher" name="TF_GPS" args="0.12 -0.08 0.1 0.0 0.0 0.0 base_link gps_link 10" /> -->
+
+  <node pkg="robot_localization" type="ekf_localization_node" name="EKF_GLOBAL" clear_params="true">
+    <rosparam command="load" file="$(find rover_launcher)/params/ekf_global.yaml" />
+    <remap from="/odometry/filtered" to="/odom_global" />
+  </node>
+
+  <node pkg="robot_localization" type="navsat_transform_node" name="NAVSAT" respawn="false">
+
+    <param name="magnetic_declination_radians" value="0"/>
+    <param name="broadcast_utm_transform" type="bool" value="true"/>
+    <param name="broadcast_utm_transform" type="bool" value="true"/>
+    <param name="broadcast_utm_transform_as_parent_frame" value="false"/>
+    <param name="publish_filtered_gps" value="true"/>
+    <param name="frequency" value="1"/>
+
+    <param name="magnetic_declination_radians" value="0.0"/>
+
+    <param name="yaw_offset" value="-1.5707"/>
+    <remap from="/gps/fix" to="/gps_navsat_raw" />
+    <remap from="/gps/filtered" to="/gps_navsat" />
+    <remap from="/imu/data" to="/imu" />
+    <remap from="/odometry/gps" to="odom_gps" />
+    <remap from="/odometry/filtered" to="/odom_global" />
+    
+  </node>
+
+</launch>

@@ -1,0 +1,50 @@
+#  Approved for public release: distribution is unlimited. PA Case Number AFRL-2023-4617.
+
+#  © 2023 Raytheon BBN Technologies Corp. All rights reserved. Sponsored by the Air Force Research Laboratory (AFRL)  
+
+
+
+
+'roscore':
+  'topic': '/rosout'
+  'script': 'start_roscore.sh'
+  'method': 'shell'
+  'topic_type': None
+  'timeout': 10.0
+  
+'state_obs':
+  'topic': '/system_diagnostics'
+  'script': 'start_state_observer_airsim.sh'
+  'method': 'node'
+  'topic_type': Diagnostics
+  'timeout': 10.0
+  
+'rosbridge':
+  'name': 'rosbridge'
+  'topic': 9090
+  'script': 'start_rosbridge.sh'
+  'method': 'websocket'
+  'topic_type': None
+  'timeout' : 10.0
+
+'sensor_transforms':
+  'topic': '/TF_MAP'
+  'script': 'start_airsim_tf.sh'
+  'method': 'node'
+  'topic_type': OccupancyGrid
+  'timeout': 10.0
+
+'gps_driver_airsim':
+  'topic': '/gps_fix'
+  'script': 'start_gps_driver_airsim.sh'
+  'method': 'node'
+  'topic_type': GPSFix
+  'timeout': 0.5
+  
+'utils':
+  'topic': '/map_pose'
+  'script': 'start_utilities.sh'
+  'method': 'node'
+  'topic_type': PoseWithCovarianceStamped
+  'timeout': 2.0
+

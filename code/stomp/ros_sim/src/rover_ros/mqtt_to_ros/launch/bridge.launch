@@ -1,0 +1,4 @@
+<launch>
+    <node pkg="mqtt_to_ros" type="mqtt_ros_bridge.py" name="MQTT_to_ROS_bridge_node" output="screen">
+    </node>
+</launch>

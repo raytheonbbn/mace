@@ -1,0 +1,19 @@
+[req]
+distinguished_name = req_distinguished_name
+req_extensions = v3_req
+prompt = no
+[req_distinguished_name]
+C = US
+ST = Massachusetts
+L = Cambridge 
+O = Raytheon BBN Technologies
+OU = MACE
+CN = mace
+[v3_req]
+keyUsage = keyEncipherment, dataEncipherment
+extendedKeyUsage = serverAuth
+subjectAltName = @alt_names
+[alt_names]
+DNS.1 = localhost
+IP.1 = 192.168.1.100
+IP.2 = 127.0.0.1

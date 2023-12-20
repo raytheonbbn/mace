@@ -1,0 +1,219 @@
+<!--   Approved for public release: distribution is unlimited. PA Case Number AFRL-2023-4617.
+
+-->
+
+<!--   © 2023 Raytheon BBN Technologies Corp. All rights reserved. Sponsored by the Air Force Research Laboratory (AFRL)  
+
+
+-->
+
+<!--   Copyright 2021-2023 Raytheon BBN Technologies.
+
+
+-->
+
+<!DOCTYPE html>
+<html>
+
+{% include '_head.html' %}
+
+<body class="main">
+
+  {% include '_navbar.html' %}
+
+  <!-- Header -->
+  <section class="hero">
+    <div class="hero-body has-text-centered">
+      <p class="title">
+        <!-- MANAGING ACADEMIES' CHALLENGE EVALUATION -->
+      </p>
+      <p class="subtitle">
+        <!-- Latest Run - Analytics -->
+      </p>
+    </div>
+  </section>
+
+  <!-- Container holding all the statistics -->
+  <div class="container">
+    <div class="tile is-ancestor">
+      <div class="tile is-vertical is-8">
+        <div class="tile">
+          <div class="tile is-parent is-vertical">
+            <article class="tile is-child notification">
+              <p class="title">Current Configuration</p>
+              <div class="content">
+                <ul>
+                  <li>Number of Targets: {{configuration_data.TotalTargets}}</li>
+                  <li>Number of Payloads: {{configuration_data.TotalPayloads}}</li>
+                  <li>Total Air Assets: {{configuration_data.TotalAirAssets}}</li>
+                  <li>Total Ground Assets: {{configuration_data.TotalGroundAssets}}</li>
+                </ul>
+              </div>
+            </article>
+            <article class="tile is-child notification">
+              <p class="title">Mission Time</p>
+              <p class="time">{{current_time}}</p>
+            </article>
+          </div>
+          <div class="tile is-parent">
+            <article class="tile is-child notification">
+              <p class="title">Mission Status</p>
+              <canvas id="pie_target_status"></canvas>
+            </article>
+          </div>
+        </div>
+        <div class="tile is-parent">
+          <article class="tile is-child notification">
+            <p class="title">Generate Reports</p>
+            <div class="content columns">
+              <div class="column has-text-centered">
+                <a class="button" href="/event_map">Event Map</a>
+              </div>
+              <div class="column has-text-centered">
+                <a class="button" href="/movement_map">Movement Map</a>
+              </div>
+              <div class="column has-text-centered">
+                <a class="button" href="/event_timeline">Event Timeline</a>
+              </div>
+              <div class="column has-text-centered">
+                <a class="button" href="/mission_report">Mission Report</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <div class="tile is-parent">
+        <div class="tile is-vertical is-12">
+          <article class="tile is-child notification">
+            <div class="content">
+              <p class="title">Mission Statistics</p>
+              <div class="content">
+                <ul>
+                  <li>Time to discover all: {{mission_statistics.TimeToDiscoverAll}}</li>
+                  <li>Time to capture all: {{mission_statistics.TimeToCaptureAll}}</li>
+                  <li>Movement time: {{mission_statistics.MovementTime}}</li>
+                  <li>Dwelling time: {{mission_statistics.DwellingTimer}}</li>
+                  <li>Total Distance Traveled: {{mission_statistics.DistanceTraveled}}m</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
+          <article class="tile is-child notification">
+            <div class="content">
+              <p class="title">Target Statistics</p>
+              <canvas id="target_statistics_chart"></canvas>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  {% include '_footer.html' %}
+
+  <!-- Include the pie chat -->
+  <script>
+
+    Chart.defaults.color = "#000000";
+
+    // define the chart data
+    var chartData = {
+      labels : {{ pie_data.labels|tojson }},
+      datasets : [{
+          backgroundColor: ['rgb(255, 56, 96)',
+                            'rgb(255, 221, 87)',
+                            'rgb(72, 199, 116)',
+                            'rgb(0, 0, 255)'],
+          borderColor: ['rgb(255, 56, 96)',
+                        'rgb(255, 221, 87)',
+                        'rgb(72, 199, 116)',
+                        'rgb(0, 0, 255)'],
+          borderJoinStyle: 'miter',
+          data : {{ pie_data.data|tojson }},
+        }]
+    }
+
+    // get chart canvas
+    var ctx = document.getElementById("pie_target_status").getContext("2d");
+
+    // create the chart using the chart canvas
+    var pie_chart = new Chart(ctx, {
+      type: 'doughnut',
+      data: chartData,
+      options: {
+        animation: {
+          duration: 0
+        },
+      }
+    });
+
+  </script>
+
+  <!-- Include the target capture and discovery statistics -->
+  <script>
+
+    Chart.defaults.color = "#000000";
+
+    // define the chart data
+    var chartData = {
+      datasets : [
+        {
+          label: 'Capture Time',
+          borderColor: "rgb(72, 199, 116)",
+          backgroundColor: "rgb(72, 199, 116)",
+          data : {{ target_statistics.TargetTimeToCapture|tojson }},
+        },
+        {
+          label: 'Discovery Time',
+          borderColor: "rgb(255, 221, 87)",
+          backgroundColor: "rgb(255, 221, 87)",
+          data : {{ target_statistics.TargetTimeToDiscover|tojson }},
+        }],
+    }
+
+    // get chart canvas
+    var ctx = document.getElementById("target_statistics_chart").getContext("2d");
+
+    // create the chart using the chart canvas
+    var pie_chart = new Chart(ctx, {
+      type: 'bubble',
+      data: chartData,
+      options: {
+        animation: {
+          duration: 0
+        },
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top',
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: 'Time (Seconds)'
+            }
+          },
+          x: {
+            type: 'category',
+            labels: {{target_statistics.TargetLabels|tojson}},
+            title: {
+              display: true,
+              text: 'Target Names'
+            }
+          },
+        }
+      }
+    });
+
+  </script>
+
+</body>
+
+</html>

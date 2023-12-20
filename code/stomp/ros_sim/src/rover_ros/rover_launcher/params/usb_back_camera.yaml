@@ -1,0 +1,33 @@
+#  Approved for public release: distribution is unlimited. PA Case Number AFRL-2023-4617.
+
+#  © 2023 Raytheon BBN Technologies Corp. All rights reserved. Sponsored by the Air Force Research Laboratory (AFRL)  
+
+
+
+image_width: 640
+image_height: 480
+camera_name: head_camera
+camera_matrix:
+  rows: 3
+  cols: 3
+  data: [497.47575,   0.     , 366.85341,
+           0.     , 494.32053, 264.5751 ,
+           0.     ,   0.     ,   1.     ]
+camera_model: plumb_bob
+distortion_model: plumb_bob
+distortion_coefficients:
+  rows: 1
+  cols: 5
+  data: [-0.011593, -0.009153, 0.002255, 0.009348, 0.000000]
+rectification_matrix:
+  rows: 3
+  cols: 3
+  data: [1., 0., 0.,
+         0., 1., 0.,
+         0., 0., 1.]
+projection_matrix:
+  rows: 3
+  cols: 4
+  data: [491.10223,   0.     , 373.7309 ,   0.     ,
+           0.     , 494.78119, 265.8513 ,   0.     ,
+           0.     ,   0.     ,   1.     ,   0.     ]

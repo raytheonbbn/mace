@@ -1,0 +1,129 @@
+#  Approved for public release: distribution is unlimited. PA Case Number AFRL-2023-4617.
+
+#  © 2023 Raytheon BBN Technologies Corp. All rights reserved. Sponsored by the Air Force Research Laboratory (AFRL)  
+
+
+
+frequency: 10
+sensor_timeout: 20
+two_d_mode: true
+transform_time_offset: 0.0
+transform_timeout: 0.0
+
+print_diagnostics: false
+debug: false
+debug_out_file: /home/nvidia/ws/src/robot_localization/logs/debug_file.txt
+
+publish_tf: false
+publish_acceleration: false
+
+map_frame: map       # Defaults to "map" if unspecified
+odom_frame: odom            # Defaults to "odom" if unspecified
+base_link_frame: base_link  # Defaults to "base_link" if unspecified
+world_frame: odom     # Defaults to the value of odom_frame if unspecified
+
+##################################
+##################################
+
+odom0: /odom_gps
+
+odom0_config: [true, true, false,
+               false, false, false,
+               false, false, false,
+               false, false, false,
+               false, false, false]
+
+odom0_differential: false
+
+##################################
+##################################
+
+odom1: /odom_wheel
+
+odom1_config: [false,  false,  false,
+               false, false, false,
+               true, true, false,
+               false, false, false,
+               false, false, false]
+
+# odom1_queue_size: 4
+odom1_differential: false
+# odom1_relative: false
+# odom0_pose_rejection_threshold: 0.5
+# odom0_twist_rejection_threshold: 0.1
+
+
+##################################
+##################################
+
+imu0: /imu_razor
+
+imu0_config: [false, false, false,
+              false, false, false,
+              false, false, false,
+              false, false, true,
+              false, false, false]
+
+# imu0_nodelay: false
+imu0_differential: true
+# imu0_relative: false 
+# imu0_queue_size: 10
+# imu0_pose_rejection_threshold: 0.25                 
+# imu0_twist_rejection_threshold: 0.1                
+# imu0_linear_acceleration_rejection_threshold: 0.1 
+imu0_remove_gravitational_acceleration: true
+
+
+
+##################################
+##################################
+
+use_control: false
+
+stamped_control: false
+
+control_timeout: 0.2
+
+control_config: [true, false, false, false, false, true]
+
+acceleration_limits: [1.3, 0.0, 0.0, 0.0, 0.0, 3.4]
+
+deceleration_limits: [1.3, 0.0, 0.0, 0.0, 0.0, 4.5]
+
+acceleration_gains: [0.8, 0.0, 0.0, 0.0, 0.0, 0.9]
+
+deceleration_gains: [1.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+
+process_noise_covariance: [0.05, 0,    0,    0,    0,    0,    0,     0,     0,    0,    0,    0,    0,    0,    0,
+                           0,    0.05, 0,    0,    0,    0,    0,     0,     0,    0,    0,    0,    0,    0,    0,
+                           0,    0,    0.06, 0,    0,    0,    0,     0,     0,    0,    0,    0,    0,    0,    0,
+                           0,    0,    0,    0.03, 0,    0,    0,     0,     0,    0,    0,    0,    0,    0,    0,
+                           0,    0,    0,    0,    0.03, 0,    0,     0,     0,    0,    0,    0,    0,    0,    0,
+                           0,    0,    0,    0,    0,    0.06, 0,     0,     0,    0,    0,    0,    0,    0,    0,
+                           0,    0,    0,    0,    0,    0,    0.025, 0,     0,    0,    0,    0,    0,    0,    0,
+                           0,    0,    0,    0,    0,    0,    0,     0.025, 0,    0,    0,    0,    0,    0,    0,
+                           0,    0,    0,    0,    0,    0,    0,     0,     0.04, 0,    0,    0,    0,    0,    0,
+                           0,    0,    0,    0,    0,    0,    0,     0,     0,    0.01, 0,    0,    0,    0,    0,
+                           0,    0,    0,    0,    0,    0,    0,     0,     0,    0,    0.01, 0,    0,    0,    0,
+                           0,    0,    0,    0,    0,    0,    0,     0,     0,    0,    0,    0.02, 0,    0,    0,
+                           0,    0,    0,    0,    0,    0,    0,     0,     0,    0,    0,    0,    0.01, 0,    0,
+                           0,    0,    0,    0,    0,    0,    0,     0,     0,    0,    0,    0,    0,    0.01, 0,
+                           0,    0,    0,    0,    0,    0,    0,     0,     0,    0,    0,    0,    0,    0,    0.015]
+
+
+initial_estimate_covariance: [1e-9, 0,    0,    0,    0,    0,    0,    0,    0,    0,     0,     0,     0,    0,    0,
+                              0,    1e-9, 0,    0,    0,    0,    0,    0,    0,    0,     0,     0,     0,    0,    0,
+                              0,    0,    1e-9, 0,    0,    0,    0,    0,    0,    0,     0,     0,     0,    0,    0,
+                              0,    0,    0,    1e-9, 0,    0,    0,    0,    0,    0,     0,     0,     0,    0,    0,
+                              0,    0,    0,    0,    1e-9, 0,    0,    0,    0,    0,     0,     0,     0,    0,    0,
+                              0,    0,    0,    0,    0,    1e-9, 0,    0,    0,    0,     0,     0,     0,    0,    0,
+                              0,    0,    0,    0,    0,    0,    1e-9, 0,    0,    0,     0,     0,     0,    0,    0,
+                              0,    0,    0,    0,    0,    0,    0,    1e-9, 0,    0,     0,     0,     0,    0,    0,
+                              0,    0,    0,    0,    0,    0,    0,    0,    1e-9, 0,     0,     0,     0,    0,    0,
+                              0,    0,    0,    0,    0,    0,    0,    0,    0,    1e-9,  0,     0,     0,    0,    0,
+                              0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     1e-9,  0,     0,    0,    0,
+                              0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,     1e-9,  0,    0,    0,
+                              0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,     0,     1e-9, 0,    0,
+                              0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,     0,     0,    1e-9, 0,
+                              0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,     0,     0,    0,    1e-9]
+
