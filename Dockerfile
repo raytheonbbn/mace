@@ -43,7 +43,7 @@ RUN update-alternatives --install /usr/bin/python3 python3 /usr/local/bin/python
 #    && rm -rf /var/lib/apt/lists/* \
 #    && :
 
-RUN python3 -m venv /venv
+RUN python3.11 -m venv /venv
 ENV PATH=/venv/bin:$PATH
 
 # Get Python 3
