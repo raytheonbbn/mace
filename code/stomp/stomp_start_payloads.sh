@@ -1,10 +1,9 @@
+#! /bin/bash
+
 #  Approved for public release: distribution is unlimited. PA Case Number AFRL-2023-4617.
 
 #  © 2023 Raytheon BBN Technologies Corp. All rights reserved. Sponsored by the Air Force Research Laboratory (AFRL)  
 
-
-
-#!/bin/bash
 MANAGER_HOST="127.0.0.1"
 TARGET_HOST="127.0.0.1"
 PID_FILE="./payload_process_pids.txt"

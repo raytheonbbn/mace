@@ -1,10 +1,9 @@
+#! /bin/bash
+
 #  Approved for public release: distribution is unlimited. PA Case Number AFRL-2023-4617.
 
 #  © 2023 Raytheon BBN Technologies Corp. All rights reserved. Sponsored by the Air Force Research Laboratory (AFRL)  
 
-
-
-#!/bin/bash
 
 ## A script that uses a command line arg for the IP address and the default pi password to update with latest mace files
 
