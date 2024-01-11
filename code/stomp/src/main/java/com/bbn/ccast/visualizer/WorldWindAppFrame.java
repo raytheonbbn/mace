@@ -100,7 +100,7 @@ public class WorldWindAppFrame extends JFrame {
     private final com.bbn.ccast.config.Configuration configuration;
 
     // Help
-    protected static final String ONLINE_HELP_URL = "http://www.swarmtactics.com";
+    protected static final String ONLINE_HELP_URL = "https://github.com/raytheonbbn/mace/issues";
     // Analytics
     protected static final String ONLINE_ANALYTICS_URL = "http://localhost:5000/";
 
